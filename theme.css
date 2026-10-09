@@ -832,13 +832,31 @@ body {
   border-inline-start: 5px solid currentcolor;
 }
 
+/* The app colors expanded backlinks/search result titles with
+   --nav-item-color-active alone — no active ground — and renames focus a
+   tree item the same way. On its own that token is this preset's canvas,
+   which erased those names against the canvas background; they read as
+   emphasized text instead. Active rows are left alone: their ink ground
+   already holds the canvas color. */
+.search-result:not(.is-collapsed) .search-result-file-title:not(.is-active) {
+  color: var(--oink-ink);
+}
+
+.tree-item-self.is-being-renamed:focus-within:not(.is-active) {
+  color: var(--oink-ink);
+}
+
 /* The command palette and quick switcher select the same way. */
 .suggestion-item.is-selected {
   background-color: var(--oink-ink);
   color: var(--oink-canvas);
 }
 
-.suggestion-item.is-selected .suggestion-flair {
+/* Complex suggestion rows paint their secondary line — the internal-link
+   suggester's folder path, an alias's note — --text-muted from the app's
+   own sheet, and the flair likewise; that grey drowns on a selected row's
+   ink ground, so both inherit the row's canvas. */
+.suggestion-item.is-selected :is(.suggestion-flair, .suggestion-note) {
   color: inherit;
 }
 
