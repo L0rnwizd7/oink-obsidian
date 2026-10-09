@@ -1,0 +1,879 @@
+/*
+OINK Terminal — an Obsidian theme. A port of the Terminal visual preset
+from the OINK Hugo theme (github.com/pgsty/oink).
+
+Manual install: copy manifest.json and theme.css into
+<vault>/.obsidian/themes/OINK Terminal/ — the folder name must equal the
+"name" in manifest.json, or Obsidian silently skips the theme — then
+pick it under Settings → Appearance → Themes.
+
+Colors, geometry, and decoration are overridable through the --oink-*
+tokens below.
+*/
+
+/* =====================================================================
+   Tokens — the source preset's role set, unchanged by Obsidian.
+   ===================================================================== */
+
+.theme-light,
+.theme-dark {
+  --oink-radius: 2px;
+}
+
+/* Terminal light. */
+.theme-light {
+  --oink-canvas: #f4f5f2;
+  --oink-canvas-alt: #e9ebe6;
+  --oink-canvas-alt2: #e1e3de;
+  --oink-canvas-tertiary: #f8f9f6;
+  --oink-surface: #fff;
+  --oink-code-surface: #fff;
+  --oink-ink: #1d211f;
+  --oink-ink-emphasis: #111713;
+  --oink-ink-muted: #4a514d;
+  --oink-ink-faint: #606b63;
+  --oink-line: rgb(29 33 31 / 32%);
+  --oink-line-hover: rgb(29 33 31 / 45%);
+  --oink-line-strong: rgb(29 33 31 / 55%);
+  --oink-link: #0a6560;
+  --oink-link-hover: #084f4b;
+  /* Link teal for text on inverted ground (selected rows): the sibling
+     mode's teal is the shade that reads against this side's ink. */
+  --oink-link-on-ink: #4cc9bd;
+  --oink-accent: #935400;
+  --oink-accent-hover: #7d4600;
+  --oink-accent-hsl: 34, 100%, 29%;
+  --oink-on-accent: #fff;
+  --oink-wash: rgb(29 33 31 / 5%);
+  --oink-wash-strong: rgb(29 33 31 / 9%);
+  --oink-selection: rgb(147 84 0 / 22%);
+  --oink-highlight: rgb(147 84 0 / 16%);
+  --oink-danger: #c72c48;
+  --oink-success: #53ac79;
+  --oink-tooltip-bg: rgb(17 23 19 / 94%);
+  --oink-tooltip-ink: #f4f5f2;
+  --oink-callout-tint: 3%;
+
+  /* Semantic rgb triples for kind-colored chrome and user-content
+     callout accents: Bootstrap's $primary/$success/$warning/$danger/
+     $info plus the copper accent for orange. */
+  --oink-rgb-red: 199, 44, 72;
+  --oink-rgb-orange: 147, 84, 0;
+  --oink-rgb-yellow: 224, 163, 92;
+  --oink-rgb-green: 83, 172, 121;
+  --oink-rgb-cyan: 10, 101, 96;
+  --oink-rgb-blue: 40, 124, 171;
+  --oink-rgb-purple: 111, 66, 193;
+  --oink-rgb-pink: 214, 51, 132;
+
+  /* Callout accents: the raw accent as a full color (frame tint) and
+     Bootstrap's shade-60 text-emphasis as the title color. */
+  --oink-co-note: #287cab;
+  --oink-co-note-title: #103244;
+  --oink-co-abstract: #419edb;
+  --oink-co-abstract-title: #1a3f58;
+  --oink-co-info: #419edb;
+  --oink-co-info-title: #1a3f58;
+  --oink-co-todo: #419edb;
+  --oink-co-todo-title: #1a3f58;
+  --oink-co-important: #6f42c1;
+  --oink-co-important-title: #2c1a4d;
+  --oink-co-tip: #53ac79;
+  --oink-co-tip-title: #214530;
+  --oink-co-success: #53ac79;
+  --oink-co-success-title: #214530;
+  --oink-co-question: #419edb;
+  --oink-co-question-title: #1a3f58;
+  --oink-co-warning: #e0a35c;
+  --oink-co-warning-title: #5a4125;
+  --oink-co-failure: #c72c48;
+  --oink-co-failure-title: #50121d;
+  --oink-co-danger: #c72c48;
+  --oink-co-danger-title: #50121d;
+  --oink-co-bug: #c72c48;
+  --oink-co-bug-title: #50121d;
+  --oink-co-example: #6610f2;
+  --oink-co-example-title: #290661;
+  --oink-co-quote: #4a514d;
+  --oink-co-quote-title: #4a514d;
+
+  /* Legacy rgb-triple names for Obsidian versions before the callout
+     color rework — the same palette, readable by old and new alike. */
+  --callout-note-color: 40, 124, 171;
+  --callout-abstract-color: 65, 158, 219;
+  --callout-info-color: 65, 158, 219;
+  --callout-todo-color: 65, 158, 219;
+  --callout-tip-color: 83, 172, 121;
+  --callout-success-color: 83, 172, 121;
+  --callout-question-color: 65, 158, 219;
+  --callout-warning-color: 224, 163, 92;
+  --callout-failure-color: 199, 44, 72;
+  --callout-danger-color: 199, 44, 72;
+  --callout-bug-color: 199, 44, 72;
+  --callout-example-color: 102, 16, 242;
+  --callout-quote-color: 74, 81, 77;
+
+  /* GitHub light code tokens. */
+  --oink-code-normal: #1d211f;
+  --oink-code-comment: #57606a;
+  --oink-code-function: #6639ba;
+  --oink-code-important: #cf222e;
+  --oink-code-keyword: #cf222e;
+  --oink-code-property: #953800;
+  --oink-code-punctuation: #57606a;
+  --oink-code-string: #0a3069;
+  --oink-code-tag: #0550ae;
+  --oink-code-value: #0550ae;
+
+  /* Base ramp, anchored on the real role values and interpolated. */
+  --color-base-00: #fff;
+  --color-base-05: #fafbf8;
+  --color-base-10: #f4f5f2;
+  --color-base-15: #eef0eb;
+  --color-base-20: #e9ebe6;
+  --color-base-25: #e1e3de;
+  --color-base-30: #d7dad4;
+  --color-base-35: #ccd0c9;
+  --color-base-40: #b7bdb6;
+  --color-base-45: #a6ada5;
+  --color-base-50: #98a097;
+  --color-base-55: #8a938a;
+  --color-base-60: #7c857d;
+  --color-base-65: #6e7770;
+  --color-base-70: #606b63;
+  --color-base-75: #555e58;
+  --color-base-80: #4a514d;
+  --color-base-85: #3c4340;
+  --color-base-90: #2e3431;
+  --color-base-95: #1d211f;
+  --color-base-100: #111713;
+}
+
+/* Terminal dark — the light preset's sibling, same roles. */
+.theme-dark {
+  --oink-canvas: #0c0f0e;
+  --oink-canvas-alt: #141a18;
+  --oink-canvas-alt2: #101413;
+  --oink-canvas-tertiary: #18201c;
+  --oink-surface: #18201c;
+  --oink-code-surface: #0a0d0b;
+  --oink-ink: #d3dbd6;
+  --oink-ink-emphasis: #edf4ef;
+  --oink-ink-muted: #9aa59f;
+  --oink-ink-faint: #8b9990;
+  --oink-line: rgb(211 219 214 / 32%);
+  --oink-line-hover: rgb(211 219 214 / 45%);
+  --oink-line-strong: rgb(211 219 214 / 55%);
+  --oink-link: #4cc9bd;
+  --oink-link-hover: #7de0d7;
+  /* See the light block for --oink-link-on-ink's role. */
+  --oink-link-on-ink: #0a6560;
+  --oink-accent: #f0a73a;
+  --oink-accent-hover: #f7bd63;
+  --oink-accent-hsl: 36, 86%, 58%;
+  --oink-on-accent: #0c0f0e;
+  --oink-wash: rgb(211 219 214 / 7%);
+  --oink-wash-strong: rgb(211 219 214 / 12%);
+  --oink-selection: rgb(240 167 58 / 35%);
+  --oink-highlight: rgb(240 167 58 / 22%);
+  --oink-danger: #dd8091;
+  --oink-success: #98cdaf;
+  --oink-tooltip-bg: rgb(24 32 28 / 98%);
+  --oink-tooltip-ink: #d3dbd6;
+  --oink-callout-tint: 5%;
+  --oink-rgb-red: 221, 128, 145;
+  --oink-rgb-orange: 240, 167, 58;
+  --oink-rgb-yellow: 236, 200, 157;
+  --oink-rgb-green: 152, 205, 175;
+  --oink-rgb-cyan: 76, 201, 189;
+  --oink-rgb-blue: 126, 176, 205;
+  --oink-rgb-purple: 169, 142, 218;
+  --oink-rgb-pink: 230, 133, 181;
+
+  /* Callout accents: Bootstrap's tint-40 text-emphasis, which is also
+     the frame tint on this side of the switch. */
+  --oink-co-note: #7eb0cd;
+  --oink-co-note-title: #7eb0cd;
+  --oink-co-abstract: #8dc5e9;
+  --oink-co-abstract-title: #8dc5e9;
+  --oink-co-info: #8dc5e9;
+  --oink-co-info-title: #8dc5e9;
+  --oink-co-todo: #8dc5e9;
+  --oink-co-todo-title: #8dc5e9;
+  --oink-co-important: #a370f7;
+  --oink-co-important-title: #a370f7;
+  --oink-co-tip: #98cdaf;
+  --oink-co-tip-title: #98cdaf;
+  --oink-co-success: #98cdaf;
+  --oink-co-success-title: #98cdaf;
+  --oink-co-question: #8dc5e9;
+  --oink-co-question-title: #8dc5e9;
+  --oink-co-warning: #ecc89d;
+  --oink-co-warning-title: #ecc89d;
+  --oink-co-failure: #dd8091;
+  --oink-co-failure-title: #dd8091;
+  --oink-co-danger: #dd8091;
+  --oink-co-danger-title: #dd8091;
+  --oink-co-bug: #dd8091;
+  --oink-co-bug-title: #dd8091;
+  --oink-co-example: #a370f7;
+  --oink-co-example-title: #a370f7;
+  --oink-co-quote: #9aa59f;
+  --oink-co-quote-title: #9aa59f;
+
+  /* Legacy rgb-triple names, dark half — see the light block above. */
+  --callout-note-color: 126, 176, 205;
+  --callout-abstract-color: 141, 197, 233;
+  --callout-info-color: 141, 197, 233;
+  --callout-todo-color: 141, 197, 233;
+  --callout-tip-color: 152, 205, 175;
+  --callout-success-color: 152, 205, 175;
+  --callout-question-color: 141, 197, 233;
+  --callout-warning-color: 236, 200, 157;
+  --callout-failure-color: 221, 128, 145;
+  --callout-danger-color: 221, 128, 145;
+  --callout-bug-color: 221, 128, 145;
+  --callout-example-color: 163, 112, 247;
+  --callout-quote-color: 154, 165, 159;
+
+  /* GitHub dark code tokens. */
+  --oink-code-normal: #e6edf3;
+  --oink-code-comment: #8b949e;
+  --oink-code-function: #d2a8ff;
+  --oink-code-important: #ff7b72;
+  --oink-code-keyword: #ff7b72;
+  --oink-code-property: #79c0ff;
+  --oink-code-punctuation: #e6edf3;
+  --oink-code-string: #a5d6ff;
+  --oink-code-tag: #7ee787;
+  --oink-code-value: #a5d6ff;
+  --color-base-00: #0c0f0e;
+  --color-base-05: #101413;
+  --color-base-10: #141a18;
+  --color-base-15: #161d1a;
+  --color-base-20: #18201c;
+  --color-base-25: #1c2521;
+  --color-base-30: #232d29;
+  --color-base-35: #2a3531;
+  --color-base-40: #35403b;
+  --color-base-45: #414d47;
+  --color-base-50: #4d5953;
+  --color-base-55: #5a665f;
+  --color-base-60: #68746d;
+  --color-base-65: #76827b;
+  --color-base-70: #8b9990;
+  --color-base-75: #949f98;
+  --color-base-80: #9aa59f;
+  --color-base-85: #a4afa8;
+  --color-base-90: #b8c2bb;
+  --color-base-95: #d3dbd6;
+  --color-base-100: #edf4ef;
+}
+
+/* =====================================================================
+   Obsidian variable map — every value resolves through a token above.
+   ===================================================================== */
+
+.theme-light,
+.theme-dark {
+  /* No font family is forced anywhere: the app's own font settings
+     win, including the user's interface/text/monospace picks. Only the
+     preset's prose rhythm is carried over. */
+  --line-height-normal: 1.7;
+
+  /* Terminal geometry: 2px corners, no shadows anywhere. */
+  --radius-s: var(--oink-radius);
+  --radius-m: var(--oink-radius);
+  --radius-l: var(--oink-radius);
+  --radius-xl: var(--oink-radius);
+  --input-radius: var(--oink-radius);
+  --modal-radius: var(--oink-radius);
+  --shadow-s: none;
+  --shadow-l: none;
+  --background-primary: var(--oink-canvas);
+  --background-primary-alt: var(--oink-canvas-tertiary);
+  --background-secondary: var(--oink-canvas-alt);
+  --background-secondary-alt: var(--oink-canvas-alt2);
+  --background-modifier-hover: var(--oink-wash);
+  --background-modifier-active-hover: var(--oink-wash-strong);
+  --background-modifier-border: var(--oink-line);
+  --background-modifier-border-hover: var(--oink-line-hover);
+  --background-modifier-border-focus: var(--oink-accent);
+  --background-modifier-form-field: var(--oink-surface);
+  --background-modifier-success: color-mix(in srgb, var(--oink-success) 16%, transparent);
+  --background-modifier-error: color-mix(in srgb, var(--oink-danger) 20%, transparent);
+  --background-modifier-error-hover: color-mix(in srgb, var(--oink-danger) 30%, transparent);
+  --background-modifier-message: var(--oink-tooltip-bg);
+  --background-modifier-cover: rgb(0 0 0 / 50%);
+  --interactive-normal: var(--oink-surface);
+  --interactive-hover: var(--oink-canvas-alt);
+  --interactive-accent: var(--oink-accent);
+  --interactive-accent-hover: var(--oink-accent-hover);
+  --interactive-accent-hsl: var(--oink-accent-hsl);
+  --color-accent: var(--oink-accent);
+  --color-accent-1: var(--oink-accent-hover);
+  --color-accent-2: color-mix(in srgb, var(--oink-accent) 80%, var(--oink-ink));
+  --color-red-rgb: var(--oink-rgb-red);
+  --color-orange-rgb: var(--oink-rgb-orange);
+  --color-yellow-rgb: var(--oink-rgb-yellow);
+  --color-green-rgb: var(--oink-rgb-green);
+  --color-cyan-rgb: var(--oink-rgb-cyan);
+  --color-blue-rgb: var(--oink-rgb-blue);
+  --color-purple-rgb: var(--oink-rgb-purple);
+  --color-pink-rgb: var(--oink-rgb-pink);
+  --text-normal: var(--oink-ink);
+  --text-muted: var(--oink-ink-muted);
+  --text-faint: var(--oink-ink-faint);
+  --text-accent: var(--oink-accent);
+  --text-accent-hover: var(--oink-accent-hover);
+  --text-on-accent: var(--oink-on-accent);
+  --text-selection: var(--oink-selection);
+  --text-highlight-bg: var(--oink-highlight);
+  --text-error: var(--oink-danger);
+  --text-success: var(--oink-success);
+  --text-warning: var(--oink-accent);
+  --bold-color: var(--oink-ink);
+  --bold-weight: 700;
+  --italic-color: var(--oink-ink);
+
+  /* Links: teal family, color-only affordance (no underlines), the way
+     the source theme sets every link role. */
+  --link-color: var(--oink-link);
+  --link-color-hover: var(--oink-link-hover);
+  --link-decoration: none;
+  --link-decoration-hover: none;
+  --link-external-color: var(--oink-link);
+  --link-external-color-hover: var(--oink-link-hover);
+  --link-external-decoration: none;
+  --link-external-decoration-hover: none;
+  --link-unresolved-color: var(--oink-ink-faint);
+  --link-unresolved-opacity: 1;
+  --link-unresolved-decoration-style: dashed;
+  --link-unresolved-decoration-color: var(--oink-line-strong);
+  --hr-color: var(--oink-line);
+  --hr-thickness: 1px;
+  --blockquote-background-color: transparent;
+  --blockquote-border-color: var(--oink-line-strong);
+  --blockquote-border-thickness: 2px;
+  --blockquote-font-style: normal;
+  --code-background: var(--oink-code-surface);
+  --code-normal: var(--oink-code-normal);
+  --code-comment: var(--oink-code-comment);
+  --code-function: var(--oink-code-function);
+  --code-important: var(--oink-code-important);
+  --code-keyword: var(--oink-code-keyword);
+  --code-property: var(--oink-code-property);
+  --code-punctuation: var(--oink-code-punctuation);
+  --code-string: var(--oink-code-string);
+  --code-tag: var(--oink-code-tag);
+  --code-value: var(--oink-code-value);
+  --embed-background: var(--oink-canvas-tertiary);
+  --embed-border-left: 2px solid var(--oink-line-strong);
+  --table-border-color: var(--oink-line);
+  --table-border-width: 1px;
+  --table-header-background: var(--oink-canvas-alt);
+  --table-header-background-hover: var(--oink-canvas-alt);
+  --table-header-size: 13px;
+  --table-header-weight: 600;
+  --table-row-background-hover: var(--oink-wash);
+  --table-row-alt-background: transparent;
+  --table-white-space: normal;
+  --checkbox-border-color: var(--oink-line-strong);
+  --checkbox-border-color-hover: var(--oink-ink-muted);
+  --checkbox-color: var(--oink-accent);
+  --checkbox-color-hover: var(--oink-accent-hover);
+  --checkbox-marker-color: var(--oink-on-accent);
+  --checkbox-radius: var(--oink-radius);
+  --checklist-done-color: var(--oink-ink-faint);
+  --tag-background: var(--oink-wash);
+  --tag-background-hover: var(--oink-wash-strong);
+  --tag-border-color: color-mix(in srgb, var(--oink-line) 60%, transparent);
+  --tag-border-color-hover: color-mix(in srgb, var(--oink-line) 80%, transparent);
+  --tag-border-width: 1px;
+  --tag-color: var(--oink-ink-muted);
+  --tag-color-hover: var(--oink-accent);
+  --tag-radius: var(--oink-radius);
+  --tag-padding-x: 9px;
+  --tag-padding-y: 3px;
+
+  /* Selected rows read as ink-on-canvas inversion (below); the vars
+     hand the same ground to every nav surface that uses them. */
+  --nav-item-color: var(--oink-ink-muted);
+  --nav-item-color-hover: var(--oink-ink);
+  --nav-item-color-active: var(--oink-canvas);
+  --nav-item-color-selected: var(--oink-canvas);
+  --nav-item-color-highlighted: var(--oink-link);
+  --nav-item-background-hover: var(--oink-wash);
+  --nav-item-background-active: var(--oink-ink);
+  --nav-item-background-selected: var(--oink-ink);
+  --nav-item-weight-active: 600;
+  --icon-color: var(--oink-ink-muted);
+  --icon-color-hover: var(--oink-ink);
+  --icon-color-active: var(--oink-accent);
+  --icon-color-focused: var(--oink-ink);
+  --list-marker-color: var(--oink-ink-faint);
+  --list-marker-color-hover: var(--oink-accent);
+  --list-marker-color-collapsed: var(--oink-accent);
+  --scrollbar-bg: transparent;
+  --scrollbar-thumb-bg: var(--oink-line);
+  --scrollbar-active-thumb-bg: var(--oink-ink-faint);
+  --divider-color: var(--oink-line);
+  --divider-color-hover: var(--oink-accent);
+  --ribbon-background: var(--oink-canvas-alt);
+  --ribbon-background-collapsed: var(--oink-canvas-alt);
+  --titlebar-background: var(--oink-canvas-alt);
+  --titlebar-background-focused: var(--oink-canvas-alt);
+  --titlebar-text-color: var(--oink-ink-muted);
+  --titlebar-text-color-focused: var(--oink-ink);
+  --tab-container-background: var(--oink-canvas-alt);
+  --tab-background-active: var(--oink-canvas);
+  --tab-outline-color: var(--oink-line);
+  --tab-text-color: var(--oink-ink-faint);
+  --tab-text-color-focused: var(--oink-ink-muted);
+  --tab-text-color-focused-active: var(--oink-ink);
+  --tab-text-color-focused-active-current: var(--oink-ink-emphasis);
+  --status-bar-background: var(--oink-canvas-alt);
+  --status-bar-border-color: var(--oink-line);
+  --status-bar-text-color: var(--oink-ink-muted);
+  --modal-background: var(--oink-canvas);
+  --modal-border-color: var(--oink-line-strong);
+  --modal-border-width: 1px;
+
+  /* Floating surfaces — menus, the command palette, the quick switcher
+     and autocomplete — take the preset's elevated surface (one step off
+     the canvas) with a concrete 1px frame. */
+  --menu-background: var(--oink-canvas-tertiary);
+  --menu-border-color: var(--oink-line-strong);
+  --menu-border-width: 1px;
+  --prompt-background: var(--oink-canvas-tertiary);
+  --suggestion-background: var(--oink-canvas-tertiary);
+  --slider-track-background: var(--oink-line);
+  --slider-thumb-background: var(--oink-accent);
+  --slider-thumb-background-hover: var(--oink-accent-hover);
+  --toggle-thumb-color: var(--oink-surface);
+  --caret-color: var(--oink-accent);
+  --canvas-background: var(--oink-canvas-alt);
+  --canvas-dot-pattern: var(--oink-line);
+
+  /* Callouts: one neutral strong frame, a 3%/5% type wash, no left
+     bar — the terminal preset replaces the whole border. Current
+     versions keep the type color in --callout-<type> as a full color;
+     older builds read --callout-<type>-color rgb triples. */
+  --callout-border-width: 1px;
+  --callout-radius: var(--oink-radius);
+  --callout-blend-mode: normal;
+  --callout-padding: 13.6px 17.6px 14.4px 18.4px;
+  --callout-title-size: 0.95rem;
+  --callout-title-weight: 600;
+  --callout-title-padding: 0;
+  --callout-content-padding: 8px 0 2px;
+  --callout-default: var(--oink-co-note);
+  --callout-summary: var(--oink-co-abstract);
+  --callout-info: var(--oink-co-info);
+  --callout-todo: var(--oink-co-todo);
+  --callout-important: var(--oink-co-important);
+  --callout-tip: var(--oink-co-tip);
+  --callout-success: var(--oink-co-success);
+  --callout-question: var(--oink-co-question);
+  --callout-warning: var(--oink-co-warning);
+  --callout-fail: var(--oink-co-failure);
+  --callout-error: var(--oink-co-danger);
+  --callout-bug: var(--oink-co-bug);
+  --callout-example: var(--oink-co-example);
+  --callout-quote: var(--oink-co-quote);
+
+  /* Headings keep the preset's weight and tracking; the face is the
+     reader's own. */
+  --h1-weight: 600;
+  --h2-weight: 600;
+  --h3-weight: 600;
+  --h4-weight: 600;
+  --h5-weight: 600;
+  --h6-weight: 600;
+  --heading-formatting: var(--oink-accent);
+  --inline-title-size: 1.8em;
+  --inline-title-weight: 600;
+  --inline-title-color: var(--oink-ink-emphasis);
+}
+
+/* =====================================================================
+   Typography and prose
+   ===================================================================== */
+
+/* The terminal preset sets tabular numerals on everything. */
+body {
+  font-variant-numeric: tabular-nums;
+}
+
+.markdown-rendered :is(h1, h2, h3, h4) {
+  letter-spacing: -0.02em;
+}
+
+.cm-header-1,
+.cm-header-2,
+.cm-header-3,
+.cm-header-4 {
+  letter-spacing: -0.02em;
+}
+
+.inline-title {
+  letter-spacing: -0.04em;
+}
+
+/* Without underlines, inline links need a non-color distinction from
+   the surrounding copy: the source theme's weight-600 rule. */
+.markdown-rendered :is(p, li, dd, figcaption, td, th) a {
+  font-weight: 600;
+}
+
+.markdown-source-view.mod-cm6 :is(.cm-link, .cm-hmd-internal-link) {
+  font-weight: 600;
+}
+
+/* =====================================================================
+   Decorations — the shapes that make the terminal readable as itself
+   ===================================================================== */
+
+/* A markdown prefix on every heading level, in copper: "# " through
+   "###### ", the terminal preset's signature taken to all six levels. */
+.markdown-rendered h1::before {
+  content: '# ' / '';
+  color: var(--oink-accent);
+}
+
+.markdown-rendered h2::before {
+  content: '## ' / '';
+  color: var(--oink-accent);
+}
+
+.markdown-rendered h3::before {
+  content: '### ' / '';
+  color: var(--oink-accent);
+}
+
+.markdown-rendered h4::before {
+  content: '#### ' / '';
+  color: var(--oink-accent);
+}
+
+.markdown-rendered h5::before {
+  content: '##### ' / '';
+  color: var(--oink-accent);
+}
+
+.markdown-rendered h6::before {
+  content: '###### ' / '';
+  color: var(--oink-accent);
+}
+
+/* Live Preview strips the markdown marks out of every inactive line —
+   the app replaces the formatting spans with nothing, so no font trick
+   can bring them back. Re-draw the prefixes with a pseudo element
+   instead, gated on `.cm-line:not(.cm-active)` inside `.is-live-preview`
+   (the app's state class on the source view, not on body) and keyed on
+   the heading span each line carries. The line carries the heading's
+   own font-size, so "## " reads at title size in copper, matching the
+   reading view. Source mode needs none of this: its marks were never
+   removed. */
+.markdown-source-view.mod-cm6.is-live-preview .cm-line:not(.cm-active):has(.cm-header-1)::before {
+  content: '# ' / '';
+  color: var(--oink-accent);
+}
+
+.markdown-source-view.mod-cm6.is-live-preview .cm-line:not(.cm-active):has(.cm-header-2)::before {
+  content: '## ' / '';
+  color: var(--oink-accent);
+}
+
+.markdown-source-view.mod-cm6.is-live-preview .cm-line:not(.cm-active):has(.cm-header-3)::before {
+  content: '### ' / '';
+  color: var(--oink-accent);
+}
+
+.markdown-source-view.mod-cm6.is-live-preview .cm-line:not(.cm-active):has(.cm-header-4)::before {
+  content: '#### ' / '';
+  color: var(--oink-accent);
+}
+
+.markdown-source-view.mod-cm6.is-live-preview .cm-line:not(.cm-active):has(.cm-header-5)::before {
+  content: '##### ' / '';
+  color: var(--oink-accent);
+}
+
+.markdown-source-view.mod-cm6.is-live-preview .cm-line:not(.cm-active):has(.cm-header-6)::before {
+  content: '###### ' / '';
+  color: var(--oink-accent);
+}
+
+/* The marks themselves, wherever the editor still has them in the DOM
+   — source mode and the focused preview line. The app paints
+   .cm-formatting-header with --text-faint, and the legacy
+   --heading-formatting variable is not consumed by current versions,
+   so they carry the copper here. */
+.markdown-source-view.mod-cm6 .cm-formatting-header {
+  color: var(--oink-accent);
+}
+
+/* A copper cursor block after the note title, as the landing hero
+   carries in the source theme. Delete this block to drop it. */
+.inline-title::after {
+  content: '';
+  display: inline-block;
+  width: 0.14em;
+  height: 0.8em;
+  margin-inline-start: 0.15em;
+  background: var(--oink-accent);
+}
+
+/* Callouts: neutral strong frame over a light type wash; the title
+   reads "[ Title ]". The wash mixes our own per-type fill token so it
+   works across versions: current builds hold a full color in
+   --callout-color (the fallback here), while older builds hold an rgb
+   triple that color-mix cannot read. */
+.callout {
+  border: 1px solid var(--oink-line-strong);
+  background-color: color-mix(
+    in srgb,
+    var(--oink-callout-fill, var(--callout-color)) var(--oink-callout-tint),
+    var(--background-primary)
+  );
+}
+
+.callout-title-inner::before {
+  content: '[' / '';
+  margin-inline-end: 0.4em;
+}
+
+.callout-title-inner::after {
+  content: ']' / '';
+  margin-inline-start: 0.4em;
+}
+
+/* An untitled callout keeps its bare icon: no empty "[ ]". */
+.callout-title-inner:empty::before,
+.callout-title-inner:empty::after {
+  content: none;
+}
+
+.callout:is([data-callout='note']) {
+  --callout-title-color: var(--oink-co-note-title);
+  --oink-callout-fill: var(--oink-co-note);
+}
+
+.callout:is([data-callout='abstract'], [data-callout='summary'], [data-callout='tldr']) {
+  --callout-title-color: var(--oink-co-abstract-title);
+  --oink-callout-fill: var(--oink-co-abstract);
+}
+
+.callout:is([data-callout='info']) {
+  --callout-title-color: var(--oink-co-info-title);
+  --oink-callout-fill: var(--oink-co-info);
+}
+
+.callout:is([data-callout='todo']) {
+  --callout-title-color: var(--oink-co-todo-title);
+  --oink-callout-fill: var(--oink-co-todo);
+}
+
+.callout:is([data-callout='tip'], [data-callout='hint']) {
+  --callout-title-color: var(--oink-co-tip-title);
+  --oink-callout-fill: var(--oink-co-tip);
+}
+
+.callout:is([data-callout='important']) {
+  --callout-title-color: var(--oink-co-important-title);
+  --oink-callout-fill: var(--oink-co-important);
+}
+
+.callout:is([data-callout='success'], [data-callout='check'], [data-callout='done']) {
+  --callout-title-color: var(--oink-co-success-title);
+  --oink-callout-fill: var(--oink-co-success);
+}
+
+.callout:is([data-callout='question'], [data-callout='help'], [data-callout='faq']) {
+  --callout-title-color: var(--oink-co-question-title);
+  --oink-callout-fill: var(--oink-co-question);
+}
+
+.callout:is([data-callout='warning'], [data-callout='caution'], [data-callout='attention']) {
+  --callout-title-color: var(--oink-co-warning-title);
+  --oink-callout-fill: var(--oink-co-warning);
+}
+
+.callout:is([data-callout='failure'], [data-callout='fail'], [data-callout='missing']) {
+  --callout-title-color: var(--oink-co-failure-title);
+  --oink-callout-fill: var(--oink-co-failure);
+}
+
+.callout:is([data-callout='danger'], [data-callout='error']) {
+  --callout-title-color: var(--oink-co-danger-title);
+  --oink-callout-fill: var(--oink-co-danger);
+}
+
+.callout:is([data-callout='bug']) {
+  --callout-title-color: var(--oink-co-bug-title);
+  --oink-callout-fill: var(--oink-co-bug);
+}
+
+.callout:is([data-callout='example']) {
+  --callout-title-color: var(--oink-co-example-title);
+  --oink-callout-fill: var(--oink-co-example);
+}
+
+.callout:is([data-callout='quote'], [data-callout='cite']) {
+  --callout-title-color: var(--oink-co-quote-title);
+  --oink-callout-fill: var(--oink-co-quote);
+}
+
+.callout:is([data-callout='quote'], [data-callout='cite']) .callout-content {
+  color: var(--oink-ink-muted);
+  font-style: italic;
+}
+
+/* Inline code is an ink chip: a 5% ink wash under a hairline border,
+   in the body ink, never a second code color. */
+.markdown-rendered :not(pre) > code {
+  border: 1px solid var(--oink-line);
+  background-color: color-mix(in srgb, var(--oink-ink) 5%, transparent);
+}
+
+.markdown-source-view.mod-cm6 .cm-inline-code {
+  background-color: color-mix(in srgb, var(--oink-ink) 5%, transparent);
+}
+
+/* Code blocks keep the white/deep surface and take the strong frame. */
+.markdown-rendered pre {
+  border: 1px solid var(--oink-line-strong);
+}
+
+/* Bold code speaks a deeper ink, as in the source theme. */
+.markdown-rendered :is(strong, b) code,
+.markdown-rendered code :is(strong, b) {
+  color: var(--oink-ink-emphasis);
+}
+
+/* Tables keep the preset's concrete frame and the header band's
+   no-wrap labels; cells wrap normally. */
+.markdown-rendered table {
+  outline: 1px solid var(--oink-line-strong);
+  outline-offset: -1px;
+}
+
+.markdown-source-view.mod-cm6 .cm-table-widget .table-wrapper {
+  border: 1px solid var(--oink-line-strong);
+  border-radius: var(--oink-radius);
+}
+
+.markdown-rendered thead th,
+.markdown-source-view.mod-cm6 .cm-table-widget thead th {
+  white-space: nowrap;
+}
+
+/* =====================================================================
+   Chrome — frames, tabs, and the inverted selection
+   ===================================================================== */
+
+/* Floating surfaces lose their shadows in the tokens above; they keep
+   their edges as concrete 1px frames instead. Menus take theirs from
+   the --menu-* variables; the command palette and the quick-switcher
+   container need the frame declared. */
+.prompt,
+.suggestion-container {
+  border: 1px solid var(--oink-line-strong);
+}
+
+/* Matched text in the quick switcher carries the link teal, the search
+   convention from the source theme. */
+.suggestion-item .suggestion-highlight {
+  color: var(--oink-link);
+}
+
+.tooltip,
+.notice {
+  color: var(--oink-tooltip-ink);
+}
+
+.workspace-tab-header-container {
+  border-bottom: 1px solid var(--oink-line);
+}
+
+.workspace-tab-header.is-active {
+  box-shadow: inset 0 2px 0 var(--oink-accent);
+}
+
+/* Selected rows invert fully — ink ground, canvas text — exactly as the
+   terminal preset's tree rows do, with the same text-marker triangle. */
+.tree-item-self.is-active {
+  position: relative;
+  background-color: var(--oink-ink);
+  color: var(--oink-canvas);
+
+  --icon-color: var(--oink-canvas);
+}
+
+.tree-item-self.is-active:hover {
+  background-color: var(--oink-ink);
+}
+
+.tree-item-self.is-active
+  :is(.tree-item-inner, .tree-item-icon, .collapse-icon, .nav-file-title-content, .nav-file-tag) {
+  color: inherit;
+}
+
+.tree-item-self.is-active::before {
+  content: '';
+  position: absolute;
+  inset-inline-start: 4px;
+  top: 50%;
+  translate: 0 -50%;
+  width: 0;
+  height: 0;
+  border-block: 4px solid transparent;
+  border-inline-start: 5px solid currentcolor;
+}
+
+/* The command palette and quick switcher select the same way. */
+.suggestion-item.is-selected {
+  background-color: var(--oink-ink);
+  color: var(--oink-canvas);
+}
+
+.suggestion-item.is-selected .suggestion-flair {
+  color: inherit;
+}
+
+/* Matched text keeps the link teal on a selected row too — in the shade
+   that reads against the inverted ground — rather than drowning in it. */
+.suggestion-item.is-selected .suggestion-highlight {
+  color: var(--oink-link-on-ink);
+}
+
+/* Omnisearch paints its secondary lines — the excerpt body, the folder
+   path, the extension and the match counter — with --text-muted, and
+   those keep it against a selected row's inverted ground. Hand the row's
+   ink down to them. */
+.suggestion-item.is-selected
+  :is(
+    .omnisearch-result__body,
+    .omnisearch-result__folder-path,
+    .omnisearch-result__extension,
+    .omnisearch-result__counter
+  ) {
+  color: inherit;
+}
+
+/* Match underlines follow the keyword's teal, thinned and detached from
+   the glyphs so they read as an underline, not a smear. */
+.suggestion-item.is-selected .omnisearch-default-highlight {
+  text-decoration-color: currentcolor;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 1px;
+}
+
+/* Search sheds the highlight fill: the matched text itself carries the
+   link teal, as the source theme's search results do. */
+.search-result-file-matched-text {
+  background-color: transparent;
+  color: var(--oink-link);
+  font-weight: 600;
+}
